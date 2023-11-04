@@ -5,7 +5,7 @@ $(document).ready(function () {
   const amenityIds = {};
 
   // Function to update the h4 tag with the list of Amenities checked
-  function updateAmenitiesList () {
+  function updateAmenitiesList() {
     const checkedAmenities = Object.values(amenityIds);
     const amenitiesList = checkedAmenities.join(', ');
 
@@ -14,7 +14,7 @@ $(document).ready(function () {
   }
 
   // Function to check the API status and update the div#api_status
-  function checkApiStatus () {
+  function checkApiStatus() {
     $.get('http://0.0.0.0:5001/api/v1/status', function (data) {
       if (data.status === 'OK') {
         // If the API status is "OK," add the class "available" to the div#api_status
@@ -56,30 +56,7 @@ $(document).ready(function () {
     success: function (data) {
       for (let i = 0; i < data.length; i++) {
         const place = data[i];
-        $('.places').append(`
-          <article>
-            <div class="title_box">
-                <h2>${place.name}</h2>
-                <div class="price_by_night">
-                  <p>$${place.price_by_night}</p>
-                </div>
-            </div>
-            <div class="information">
-              <div class="max_guest">
-                ${place.max_guest} Guest(s)
-              </div>
-              <div class="number_rooms">
-                ${place.number_rooms} Bedroom(s)
-              </div>
-              <div class="number_bathrooms">
-                ${place.number_rooms} Bathroom(s)
-              </div>
-            </div>
-            <div class="description">
-              <p>${place.description}</p>
-            </div>
-          </article>
-        `);
+        $('section.places').append('<article><div class="title"><h2>' + place.name + '</h2><div class="price_by_night">' + place.price_by_night + '</div></div><div class="information"><div class="max_guest"><i class="fa fa-users fa-3x" aria-hidden="true"></i><br />' + place.max_guest + ' Guests</div><div class="number_rooms"><i class="fa fa-bed fa-3x" aria-hidden="true"></i><br />' + place.number_rooms + ' Bedrooms</div><div class="number_bathrooms"><i class="fa fa-bath fa-3x" aria-hidden="true"></i><br />' + place.number_bathrooms + ' Bathroom</div></div><div class="description">' + place.description + '</div></article>');
       }
     }
   });
