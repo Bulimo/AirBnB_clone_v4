@@ -83,4 +83,49 @@ $(document).ready(function () {
       }
     }
   });
+
+  /*******************************************************
+  populate Places from frontend, instead of backend jinja;
+  filter places displayed based on amenity checkboxed list
+  *******************************************************/
+
+  $('button').click(function () {
+    $('article').remove();
+    $.ajax({
+      type: 'POST',
+      url: 'http://0.0.0.0:5001/api/v1/places_search',
+      data: JSON.stringify({ amenities: Object.keys(amenityIds) }),
+      dataType: 'json',
+      contentType: 'application/json',
+      success: function (data) {
+        for (let i = 0; i < data.length; i++) {
+          const place = data[i];
+          $('.places').append(`
+          <article>
+            <div class="title_box">
+                <h2>${place.name}</h2>
+                <div class="price_by_night">
+                  <p>$${place.price_by_night}</p>
+                </div>
+            </div>
+            <div class="information">
+              <div class="max_guest">
+                ${place.max_guest} Guest(s)
+              </div>
+              <div class="number_rooms">
+                ${place.number_rooms} Bedroom(s)
+              </div>
+              <div class="number_bathrooms">
+                ${place.number_rooms} Bathroom(s)
+              </div>
+            </div>
+            <div class="description">
+              <p>${place.description}</p>
+            </div>
+          </article>
+        `);
+        }
+      }
+    });
+  });
 });
